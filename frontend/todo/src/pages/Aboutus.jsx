@@ -22,7 +22,7 @@ const Aboutus = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 w-full max-w-6xl">
         {teamMembers.map((member, index) => (
-          <div key={index} className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center">
+          <div key={index} className="bg-[#f8f8f8] p-6 shadow-lg rounded-lg flex flex-col items-center">
             <img
               src={member.image}
               alt={member.name}
