@@ -10,7 +10,7 @@ const Signin = () => {
   return(
     <>
       <Navbar />
-      <div className="w-screen h-screen flex justify-center items-center relative z-10 bg-[#f8f8f8]">
+      <div className="w-screen h-screen flex justify-center items-center relative -z-0 bg-[#f8f8f8]">
         <div className="bg-black flex flex-col justify-center items-center p-7 rounded-lg">
             <p className='text-white font-bold text-2xl'>SIGN IN</p>
           <input

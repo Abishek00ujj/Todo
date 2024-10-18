@@ -13,10 +13,10 @@ export const Navbar = () => {
     <>
       <div className='lg:hidden'>
         <div
-          className={`fixed top-0 left-0 h-full bg-slate-800 backdrop-blur-md transition-transform duration-100 ease-in transform ${
+          className={`fixed top-0 left-0 h-full bg-slate-800 backdrop-blur-md transition-transform duration-300 ease-in-out ${
             sideBar ? 'translate-x-0' : '-translate-x-full'
-          }`}
-          style={{ width: '70%' }}
+          } z-50`}
+          style={{ width: '70%' }} 
         >
           <div onClick={handleSidebar} className='p-4'>
             <p className='text-3xl font-mono text-white'>
@@ -37,12 +37,12 @@ export const Navbar = () => {
               <div className='w-full bg-slate-400 p-3'><p>SignIn</p></div>
             </Link>
           </div>
-          <div className='relative bottom-0 w-full text-center'>
+          <div className='absolute bottom-0 w-full text-center p-4'>
             <p className='text-white font-mono font-bold'>Powered by Abishek</p>
           </div>
         </div>
       </div>
-      <div className='w-screen h-16 bg-slate-600 text-white font-mono p-4 flex items-center justify-between z-30'>
+      <div className='w-screen h-16 bg-slate-600 text-white font-mono p-4 flex items-center justify-between z-60 relative'>
         <div className='flex items-center space-x-4'>
           <div className='lg:hidden' onClick={handleSidebar}>
             <Menu size={40} />
