@@ -26,6 +26,7 @@ const Home = () => {
     </button></Link>
         </div>
       </div>
+      <Link to={"/underconstruction"}><div className='underline text-blue-500'>under construction</div></Link>
       <Footer/>
     </>
   );
