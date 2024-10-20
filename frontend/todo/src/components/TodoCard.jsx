@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { SquarePen, Trash2,TrashIcon,X } from 'lucide-react';
-import {Link} from 'react-router-dom'
+import { SquarePen, Trash2,X } from 'lucide-react';
 const TodoCard = (props) => {
   const [popup,setpopup]=useState(false);
   const [delpopup,delsetpopup]=useState(false);
@@ -16,7 +15,7 @@ const TodoCard = (props) => {
     <>
       {
         delpopup&&(
-          <div className='w-screen fixed justify-center items-center flex text-center'>
+          <div className='w-screen fixed justify-center items-center flex text-center z-70 fixed top-60 rounded-xl'>
           <div className='w-[70vw] xl:w-[30vw] h-[20vh] xl:h-[20vh] bg-black  rounded-lg'>
             <div className='w-full justify-center flex'><Trash2 fill='red' size={50} color='white'/></div>
             <div>
@@ -36,8 +35,8 @@ const TodoCard = (props) => {
           <div className='w-full justify-end flex' onClick={handlepopup} ><X fill='red' color='red' size={40} className=''/></div>
           <div className='text-2xl font-semibold text-white text-center'>UPDATE YOUR TASK</div>
           <div className='w-full flex flex-col justify-center items-center gap-4'>
-            <input type="text" className='w-[80%] h-10 rounded-lg' placeholder='Title'/>
-            <textarea typeof='textarea' className='w-[80%] h-10 rounded-lg' placeholder='Body'></textarea>
+            <input type="text" className='w-[80%] h-10 rounded-lg' placeholder='Title' value={props.title}/>
+            <textarea typeof='textarea' className='w-[80%] h-10 rounded-lg' placeholder='Body' value={props.body}></textarea>
           </div>
           <div className='w-full'>
             <div className='flex justify-end m-10 space-x-5'>

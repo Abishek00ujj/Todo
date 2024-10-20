@@ -35,10 +35,14 @@ const Signin = () => {
        const res=await axios.post(url,objData);
        succuessToast(res.data.message);
        setTimeout(()=>setRedirecttohome(true),2000);
+      //  console.log(res.data.others._id);
+       sessionStorage.setItem("id",res.data.others._id);
+      //  console.log(sessionStorage.getItem("id"));
       }
       catch(err)
       {
          if(err.response && err.response.data.message){
+          // console.log(res.data.others._id);
           warnToast(err.response.data.message);
          }
          else

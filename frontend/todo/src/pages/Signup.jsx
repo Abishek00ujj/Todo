@@ -16,7 +16,6 @@ const Signup = () => {
     const [redirectToSignin, setRedirectToSignin] = useState(false);
     const notifySuccess = (message) => toast.success(message);
     const notifyWarning = (message) => toast.warn(message);
-    
     const handleSignin = async () => {
         const objData = {
             email: emailref.current.value,
@@ -38,14 +37,18 @@ const Signup = () => {
           }, 2000);
         }
          catch (error) {
-            if (error.response) {
+            if (error.response)
+            {
                 notifyWarning(error.response.data.message || "Registration failed.");
-            } else {
+            }
+            else
+            {
                 notifyWarning("An error occurred. Please try again.");
             }
         }
     };
-    if (redirectToSignin) {
+  if(redirectToSignin)
+  {
       return <Navigate to="/signin" />;
   }
 

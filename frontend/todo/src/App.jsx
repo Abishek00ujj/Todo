@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbar from './components/Navbar'
 import Home from '../src/pages/Home'
 import Aboutus from './pages/Aboutus'
@@ -8,6 +8,9 @@ import Todo from './pages/Todo'
 import Underconstruction from './pages/Underconstruction'
 import { BrowserRouter,Routes,Route } from 'react-router-dom'
 const App = () => {
+  useEffect(()=>{
+    // console.log(sessionStorage.getItem("id"));
+  },[])
   return (
     <>
      <BrowserRouter>

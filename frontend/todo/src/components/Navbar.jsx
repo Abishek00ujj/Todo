@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { ListTodo, User2, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
+import {useSelector} from 'react-redux';
 export const Navbar = () => {
+
+  const isLoggedIn=useSelector((state)=>state.isLoggedIn);
+  console.log(isLoggedIn);
   const [sideBar, setSidebar] = useState(false);
 
   const handleSidebar = () => {
@@ -47,14 +50,14 @@ export const Navbar = () => {
           <div className='lg:hidden' onClick={handleSidebar}>
             <Menu size={40} />
           </div>
-          <div className='text-2xl sm:text-3xl flex'>TODO <ListTodo /></div>
+          <div className='text-2xl sm:text-3xl flex'><div className='flex'>TODO <ListTodo /></div></div>
         </div>
         <div className='hidden lg:flex space-x-4 items-center'>
           <Link to="/" className="hover:underline"><p>Home</p></Link>
           <Link to="/aboutus" className="hover:underline"><p>About us</p></Link>
           <Link to="/signup" className="hover:underline"><p>SignUp</p></Link>
           <Link to="/signin" className="hover:underline"><p>SignIn</p></Link>
-          <User2 />
+          <User2 /> 
         </div>
       </div>
     </>

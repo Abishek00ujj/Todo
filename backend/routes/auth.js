@@ -36,9 +36,7 @@ router.post("/login", async (req, res) => {
         if (!isPasswordCorrect) {
             return res.status(400).json({ message: "Password is not correct." });
         }
-
-        const { password: _, ...others } = user._doc;
-        res.status(200).json({ message: "Login successful!", user: others });
+        res.status(200).json({ message: "Login successful!",  others: { _id: user._id, email: user.email, username: user.username }, });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error!" });
