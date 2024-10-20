@@ -3,7 +3,9 @@ const app=express();
 require("./connection/conn");
 const auth=require("./routes/auth");
 const list=require("./routes/list");
+const cors=require('cors');
 
+app.use(cors());
 app.get("/",(req,res)=>{
     res.send("hello")
 })

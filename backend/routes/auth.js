@@ -1,42 +1,48 @@
-const router=require('express').Router();
-const User=require("../models/user");
-const bcrypt=require('bcryptjs');
+const router = require('express').Router();
+const User = require("../models/user");
+const bcrypt = require('bcryptjs');
 
-router.post("/register",async(req,res)=>{
-  try 
-  {
-      const{email,username,password}=req.body;
-      const hashpassword=bcrypt.hashSync(password);
-      const user=new User({email,username,password: hashpassword});
-      await user.save().then(()=>res.status(200).json({user:user}) );
-  } 
-  catch(error)
-  {
-    res.status(400).json({message:"User already Exists!"});
-  }
-})
+router.post("/register", async (req, res) => {
+    try {
+        const { email, username, password } = req.body;
 
-router.post("/login",async(req,res)=>{
-    try
-    {
-        const user=await User.findOne({email:req.body.email});
-        if(!User){
-            res.status(400).json({message:"Please signin Up first"});
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "User already exists!" });
         }
-        const isPasswordCorrect=bcrypt.compareSync(req.body.password,user.password);
-        if(!isPasswordCorrect)
-        {
-            res.status(400).json({message:"Password is Not correct"});
-        }
-        const {password,...others}=user._doc;  
-        res.status(200).json({others});
-    } 
-    catch(error)
-    {
-        res.status(400).json({message:"User Already Exists"})
+
+        const hashPassword = bcrypt.hashSync(password, 8);
+        const user = new User({ email, username, password: hashPassword });
+
+        await user.save();
+        res.status(201).json({ message: "User registered successfully!", user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error!" });
     }
-})
+});
 
+// User Login Route
+router.post("/login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
 
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: "Please sign up first." });
+        }
 
-module.exports=router;
+        const isPasswordCorrect = bcrypt.compareSync(password, user.password);
+        if (!isPasswordCorrect) {
+            return res.status(400).json({ message: "Password is not correct." });
+        }
+
+        const { password: _, ...others } = user._doc;
+        res.status(200).json({ message: "Login successful!", user: others });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error!" });
+    }
+});
+
+module.exports = router;
