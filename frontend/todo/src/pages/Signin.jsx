@@ -1,11 +1,55 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
+import { Navigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Signin = () => {
+    const url="http://localhost:1999/api/v1/login";
+
+    const [Redirecttohome,setRedirecttohome]=useState(false);
     const emailref=useRef(null);
     const passwordref=useRef(null);
+    const warnToast=(message)=>toast.error(message);
+    const succuessToast=(message)=>toast.success(message);
     const handleLogin=()=>{
+      const objData={
+        email:emailref.current.value,
+        password:passwordref.current.value
+      }
+      if(objData.email.length==0||objData.password.length==0)
+      {
+        warnToast("Please fill!");
+        return;
+      }
+      else
+      {
+         data_anupu(objData);
+      }
+    }
+    const data_anupu=async(objData)=>{
+      try{
+       const res=await axios.post(url,objData);
+       succuessToast(res.data.message);
+       setTimeout(()=>setRedirecttohome(true),2000);
+      }
+      catch(err)
+      {
+         if(err.response && err.response.data.message){
+          warnToast(err.response.data.message);
+         }
+         else
+         {
+          warnToast("An unexpected error occurred!");
+         }
+      }
+    }
+    if(Redirecttohome)
+    {
+      return <Navigate to={"/todo"}/>
     }
   return(
     <>
@@ -34,6 +78,7 @@ const Signin = () => {
         </div>
       </div>
       <Footer />
+      <ToastContainer/>
     </>
   )
 }

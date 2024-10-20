@@ -20,7 +20,7 @@ const Home = () => {
           <p className='text-1xl sm:text-1xl md:text-1xl lg:text-1xl flex justify-center items-center'>
             todo app. The World's #1 task manager app.
           </p>
-          <Link to={'/Todo'}><button className="relative w-[165px] h-[62px] text-white text-[17px] rounded-xl bg-[#100720] transition-transform duration-100 hover:scale-95 active:scale-90 active:rotate-3">
+          <Link to={'/signup'}><button className="relative w-[165px] h-[62px] text-white text-[17px] rounded-xl bg-[#100720] transition-transform duration-100 hover:scale-95 active:scale-90 active:rotate-3">
       Make Todo List
       <span className="absolute inset-0 bg-gradient-to-br from-[#ff5ef7] to-[#02f5ff] blur-[15px] -z-10"></span>
     </button></Link>
