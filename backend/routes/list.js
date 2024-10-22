@@ -2,17 +2,15 @@ const router = require('express').Router();
 const User = require('../models/user');
 const List = require('../models/list');
 
-// Add task
 router.post("/addtask", async (req, res) => {
     try {
         const { title, body, id } = req.body;
-
-        // Validate required fields
+        console.log(title+" "+body+" "+id)
         if (!title || !body || !id) {
             return res.status(400).json({ message: "Title, Body, and User ID are required" });
         }
 
-        const existingUser = await User.findOne({ id });
+        const existingUser = await User.findOne({_id:id});
 
         if (existingUser) {
             const list = new List({ title, body, user: existingUser._id });
@@ -31,7 +29,6 @@ router.post("/addtask", async (req, res) => {
     }
 });
 
-// Update task
 router.put("/updatetask/:id", async (req, res) => {
     try {
         const { title, body, email } = req.body;
@@ -59,7 +56,7 @@ router.put("/updatetask/:id", async (req, res) => {
     }
 });
 
-// Delete task
+
 router.delete("/deletetask/:id", async (req, res) => {
     try {
         const { email } = req.body;
@@ -89,7 +86,6 @@ router.delete("/deletetask/:id", async (req, res) => {
     }
 });
 
-// Get tasks for a user
 router.get("/gettasks/:id", async (req, res) => {
     try {
         const list = await List.find({ user: req.params.id }).sort({ createdAt: -1 });

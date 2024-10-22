@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Navbar from '../components/Navbar';
 import TodoCard from '../components/TodoCard';
 import axios from 'axios';
@@ -9,12 +9,13 @@ const Todo = () => {
   const id = sessionStorage.getItem("id");
   const titleref = useRef(null);
   const bodyref = useRef(null);
+  const [datu, setdatu] = useState([]);
+  const notify = (message) => toast(message);
 
   const handleClick = async () => {
     const title = titleref.current.value;
     const body = bodyref.current.value;
 
-    // Validation for empty fields
     if (!title || !body) {
       notify("Title and Body are required!");
       return;
@@ -32,8 +33,9 @@ const Todo = () => {
       console.log(res);
       if (res.status === 200) {
         notify("Task added successfully!");
-        titleref.current.value = ""; // Clear input fields after success
+        titleref.current.value = "";
         bodyref.current.value = "";
+        getTasks();
       }
     } catch (err) {
       console.error(err);
@@ -41,7 +43,21 @@ const Todo = () => {
     }
   };
 
-  const notify = (message) => toast(message);
+  const getTasks = async () => {
+    try {
+      const geturl = `http://localhost:1999/api/v2/gettasks/${id}`;
+      const res = await axios.get(geturl);
+      // console.log(res.data);
+      setdatu(res.data.list);
+      console.log(datu);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getTasks(); 
+  }, []);
 
   return (
     <>
@@ -69,11 +85,15 @@ const Todo = () => {
             </div>
           </div>
         </div>
-        <TodoCard title={"hi"} body={"hello"} />
-        <TodoCard />
-        <TodoCard />
-        <ToastContainer />
+        <div className="flex flex-col items-center">
+          {
+            datu.map((item) => (
+              <TodoCard key={item._id} _id={item._id} title={item.title} body={item.body} onDelete={getTasks} />
+            ))
+          }
+        </div>
       </div>
+      <ToastContainer />
     </>
   );
 };
