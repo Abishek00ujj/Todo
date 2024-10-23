@@ -19,7 +19,6 @@ const Aboutus = () => {
       <div class="bg-slate-200 min-h-screen flex items-center justify-center">
       <div className="bg-slate-200 min-h-screen flex flex-col items-center justify-center p-6">
       <h1 className="text-4xl font-bold text-center mb-12">About Us</h1>
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 w-full max-w-6xl">
         {teamMembers.map((member, index) => (
           <div key={index} className="bg-[#f8f8f8] p-6 shadow-lg rounded-lg flex flex-col items-center">
@@ -35,25 +34,7 @@ const Aboutus = () => {
           </div>
         ))}
       </div>
-
-      <div className="text-justify mt-12">
-        <p className="text-xl text-gray-600">
-          We are currently pursuing our 3rd year of BTech-IT at Sri Shakthi College, working together to build this travel itinerary planner as part of our MERN stack training project. Our goal is to create a reliable, user-friendly platform that helps users plan their trips effortlessly.
-        </p>
-      </div>
       <hr/>
-      <div className="text-justify mt-12">
-    <h2 className="text-2xl font-bold text-center mb-4">Our Project</h2>
-    <p className="text-gray-700 text-lg">
-      This website was developed as part of our training in the MERN (MongoDB, Express, React, Node.js) stack. Our travel itinerary planner allows users to create, manage, and customize their trip itineraries seamlessly. We have integrated real-time data fetching for destinations, weather updates, and accommodation options to provide the best experience for travelers.
-    </p>
-    <p className="text-gray-700 text-lg mt-4">
-      The development process involved collaborative teamwork where each member contributed their expertise—front-end development, back-end infrastructure, and full-stack integration. We used modern web development practices, focusing on responsiveness, performance, and scalability to ensure a high-quality user experience.
-    </p>
-    <p className="text-gray-700 text-lg mt-4">
-      We are proud to have built this platform, which not only enhances trip planning but also showcases the skills we have acquired through our education and this project.
-    </p>
-  </div>
     </div>
     </div>
       <Footer/>
