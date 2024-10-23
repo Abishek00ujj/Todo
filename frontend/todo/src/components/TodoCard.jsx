@@ -96,7 +96,7 @@ const TodoCard = ({ _id, title, body, onDelete, onUpdate,getTasks }) => {
       )}
 
       <div className='w-screen flex justify-center py-5 z-10'>
-        <div className='w-[90vw] sm:w-[80vw] lg:w-[60vw] xl:w-[40vw] h-auto border border-black p-5 rounded-lg bg-slate-200'>
+        <div className='w-[90vw] sm:w-[80vw] lg:w-[60vw] xl:w-[40vw] h-auto border border-black p-5 rounded-lg bg-slate-200 backdrop-blur-3xl'>
           <p className='text-justify mb-4 font-bold'>Title: {title}</p>
           <p className='text-justify mb-4 font-mono'>Body: {body}</p>
           <div className='w-full flex justify-between'>
