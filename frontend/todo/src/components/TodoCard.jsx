@@ -17,9 +17,9 @@ const TodoCard = ({ _id, title, body, onDelete, onUpdate,getTasks }) => {
   };
 
   const handleDelete = async () => {
-    const deleteUrl = `http://localhost:1999/api/v2/deletetask/${_id}`;
+    const deleteUrl = `https://todo-fli1.onrender.com/deletetask/${_id}`;
     try
-    {
+    { 
       const res = await axios.delete(deleteUrl);
       if (res.status === 200) {
         getTasks();
@@ -30,9 +30,8 @@ const TodoCard = ({ _id, title, body, onDelete, onUpdate,getTasks }) => {
       console.error("Error deleting task:", err);
     }
   };
-
   const handleUpdate = async () => {
-    const updateUrl = `http://localhost:1999/api/v2/updatetask/${_id}`;
+    const updateUrl = `https://todo-fli1.onrender.com/updatetask/${_id}`;
     const updateData = { title: updateTitle, body: updateBody};
 
     try {

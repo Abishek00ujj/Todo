@@ -29,7 +29,7 @@ const Todo = () => {
       id
     };
     
-    const url = "http://localhost:1999/api/v2/addtask";
+    const url = "https://todo-fli1.onrender.com/addtask";
     setIsSubmitting(true);
     try {
       const res = await axios.post(url, obj);
@@ -50,7 +50,7 @@ const Todo = () => {
   const getTasks = async () => {
     setLoading(true);
     try {
-      const geturl = `http://localhost:1999/api/v2/gettasks/${id}`;
+      const geturl = `https://todo-fli1.onrender.com/gettasks/${id}`;
       const res = await axios.get(geturl);
       setdatu(res.data.list);
     } catch (err) {
