@@ -10,6 +10,7 @@ const Todo = () => {
   const titleref = useRef(null);
   const bodyref = useRef(null);
   const [datu, setdatu] = useState([]);
+  const [loading, setLoading] = useState(false);
   const notify = (message) => toast(message);
 
   const handleClick = async () => {
@@ -44,19 +45,22 @@ const Todo = () => {
   };
 
   const getTasks = async () => {
+    setLoading(true);
     try {
       const geturl = `http://localhost:1999/api/v2/gettasks/${id}`;
       const res = await axios.get(geturl);
-      // console.log(res.data);
-      setdatu(res.data.list);
-      console.log(datu);
+      setdatu(res.data.list); 
+      console.log(res.data.list); 
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      notify("Failed to fetch tasks.");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    getTasks(); 
+    getTasks();
   }, []);
 
   return (
@@ -85,12 +89,15 @@ const Todo = () => {
             </div>
           </div>
         </div>
+
         <div className="flex flex-col items-center">
-          {
+          {loading ? (
+            <p>Loading tasks...</p>
+          ) : (
             datu.map((item) => (
               <TodoCard key={item._id} _id={item._id} title={item.title} body={item.body} onDelete={getTasks} />
             ))
-          }
+          )}
         </div>
       </div>
       <ToastContainer />

@@ -59,27 +59,28 @@ router.put("/updatetask/:id", async (req, res) => {
 
 router.delete("/deletetask/:id", async (req, res) => {
     try {
-        const { email } = req.body;
+        // Find the task (list item) by its ID
+        const list = await List.findById(req.params.id);
 
-        if (!email) {
-            return res.status(400).json({ message: "Email is required" });
+        if (!list) {
+            return res.status(404).json({ message: "Task not found" });
         }
 
-        const existingUser = await User.findOne({ email });
+        // Find the user who owns this task
+        const existingUser = await User.findById(list.user);
 
-        if (existingUser) {
-            const list = await List.findByIdAndDelete(req.params.id);
-
-            if (list) {
-                existingUser.list.pull(list._id);
-                await existingUser.save();
-                return res.status(200).json({ message: "Task deleted" });
-            } else {
-                return res.status(404).json({ message: "Task not found" });
-            }
-        } else {
+        if (!existingUser) {
             return res.status(404).json({ message: "User not found" });
         }
+
+        // Remove the task from the user's list
+        existingUser.list.pull(list._id);
+        await existingUser.save();
+
+        // Delete the task from the database
+        await list.deleteOne();
+
+        return res.status(200).json({ message: "Task deleted" });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Server error" });
