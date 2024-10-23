@@ -4,6 +4,7 @@ import TodoCard from '../components/TodoCard';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { LoaderIcon } from 'lucide-react';
 
 const Todo = () => {
   const id = sessionStorage.getItem("id");
@@ -29,7 +30,7 @@ const Todo = () => {
       id
     };
     
-    const url = "https://todo-fli1.onrender.com/addtask";
+    const url = "https://todo-fli1.onrender.com/api/v2/addtask";
     setIsSubmitting(true);
     try {
       const res = await axios.post(url, obj);
@@ -50,7 +51,7 @@ const Todo = () => {
   const getTasks = async () => {
     setLoading(true);
     try {
-      const geturl = `https://todo-fli1.onrender.com/gettasks/${id}`;
+      const geturl = `https://todo-fli1.onrender.com/api/v2/gettasks/${id}`;
       const res = await axios.get(geturl);
       setdatu(res.data.list);
     } catch (err) {
@@ -82,20 +83,20 @@ const Todo = () => {
               required
               placeholder='Title'
               className='p-3 w-[90vw] sm:w-[40vw] xl:w-[30vw] border border-gray-500 rounded-md'
-              disabled={isSubmitting} // Disable input while submitting
+              disabled={isSubmitting} 
             />
             <textarea
               ref={bodyref}
               required
               placeholder='Body'
               className='p-3 w-[90vw] sm:w-[40vw] xl:w-[30vw] border border-gray-500 rounded-md'
-              disabled={isSubmitting} // Disable textarea while submitting
+              disabled={isSubmitting} 
             />
             <div className='w-full flex justify-end'>
               <button
                 className={`bg-green-500 rounded-md text-white pl-4 pr-4 pt-2 pb-2 ${isSubmitting ? 'opacity-50' : ''}`}
                 onClick={handleClick}
-                disabled={isSubmitting} // Disable button while submitting
+                disabled={isSubmitting}
               >
                 {isSubmitting ? 'Adding...' : 'Add'}
               </button>
@@ -105,7 +106,7 @@ const Todo = () => {
 
         <div className="flex flex-col items-center">
           {loading ? (
-            <p>Loading tasks...</p>
+            <p className='animate-spin'><LoaderIcon/></p>
           ) : (
             datu.map((item) => (
               <TodoCard

@@ -17,7 +17,7 @@ const TodoCard = ({ _id, title, body, onDelete, onUpdate,getTasks }) => {
   };
 
   const handleDelete = async () => {
-    const deleteUrl = `https://todo-fli1.onrender.com/deletetask/${_id}`;
+    const deleteUrl = `https://todo-fli1.onrender.com/api/v2/deletetask/${_id}`;
     try
     { 
       const res = await axios.delete(deleteUrl);
@@ -31,7 +31,7 @@ const TodoCard = ({ _id, title, body, onDelete, onUpdate,getTasks }) => {
     }
   };
   const handleUpdate = async () => {
-    const updateUrl = `https://todo-fli1.onrender.com/updatetask/${_id}`;
+    const updateUrl = `https://todo-fli1.onrender.com/api/v2/updatetask/${_id}`;
     const updateData = { title: updateTitle, body: updateBody};
 
     try {

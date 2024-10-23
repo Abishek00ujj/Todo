@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Signup = () => {
-    const url = "https://todo-fli1.onrender.com/register";
+    const url = "https://todo-fli1.onrender.com/api/v1/register";
     const nameref = useRef(null);
     const emailref = useRef(null);
     const password1ref = useRef(null);
