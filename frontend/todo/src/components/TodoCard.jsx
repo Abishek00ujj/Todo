@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { SquarePen, Trash2, X } from 'lucide-react';
 import axios from 'axios';
 
-const TodoCard = ({ _id, title, body, onDelete }) => {
+const TodoCard = ({ _id, title, body, onDelete, onUpdate,getTasks }) => {
   const [popup, setPopup] = useState(false);
   const [delPopup, setDelPopup] = useState(false);
   const [updateTitle, setUpdateTitle] = useState(title);
   const [updateBody, setUpdateBody] = useState(body);
+
   const handlePopup = () => {
     setPopup(!popup);
   };
@@ -17,11 +18,13 @@ const TodoCard = ({ _id, title, body, onDelete }) => {
 
   const handleDelete = async () => {
     const deleteUrl = `http://localhost:1999/api/v2/deletetask/${_id}`;
-    console.log("Deleting task with ID:", _id);
-    try {
+    try
+    {
       const res = await axios.delete(deleteUrl);
       if (res.status === 200) {
-        onDelete(_id); // Notify parent to refresh tasks
+        getTasks();
+        onDelete(_id); 
+        handleDelPopup();
       }
     } catch (err) {
       console.error("Error deleting task:", err);
@@ -30,13 +33,13 @@ const TodoCard = ({ _id, title, body, onDelete }) => {
 
   const handleUpdate = async () => {
     const updateUrl = `http://localhost:1999/api/v2/updatetask/${_id}`;
-    const updateData = { title: updateTitle, body: updateBody };
+    const updateData = { title: updateTitle, body: updateBody};
 
     try {
       const res = await axios.put(updateUrl, updateData);
       if (res.status === 200) {
-        onDelete(); // Refresh tasks after update
-        handlePopup(); // Close the popup
+        onUpdate(); 
+        handlePopup(); 
       }
     } catch (err) {
       console.error("Error updating task:", err);
@@ -46,13 +49,15 @@ const TodoCard = ({ _id, title, body, onDelete }) => {
   return (
     <>
       {delPopup && (
-        <div className='w-screen fixed justify-center items-center flex text-center z-70 fixed top-60 rounded-xl'>
-          <div className='w-[70vw] xl:w-[30vw] h-[20vh] xl:h-[20vh] bg-black rounded-lg'>
-            <div className='w-full justify-center flex'><Trash2 fill='red' size={50} color='white' /></div>
+        <div className='w-screen fixed justify-center items-center flex text-center z-70 top-60'>
+          <div className='w-[70vw] xl:w-[30vw] h-[20vh] bg-black rounded-lg'>
+            <div className='w-full justify-center flex'>
+              <Trash2 fill='red' size={50} color='white' />
+            </div>
             <div>
               <p className='text-white font-bold text-3xl'>Do you want to delete?</p>
             </div>
-            <div className='mt-3'>
+            <div className='mt-3 flex'>
               <button className='bg-red-600 w-[50%] p-4' onClick={handleDelPopup}>Cancel</button>
               <button className='bg-green-600 w-[50%] p-4' onClick={handleDelete}>Confirm</button>
             </div>
@@ -61,7 +66,7 @@ const TodoCard = ({ _id, title, body, onDelete }) => {
       )}
 
       {popup && (
-        <div className='w-[80vw] h-[80vh] bg-slate-800 backdrop-blur-xl z-70 fixed top-16 rounded-xl'>
+        <div className='w-[80vw] h-[80vh] bg-slate-800 z-70 fixed top-16 rounded-xl'>
           <div className='w-full justify-end flex' onClick={handlePopup}>
             <X fill='red' color='red' size={40} />
           </div>
@@ -75,7 +80,7 @@ const TodoCard = ({ _id, title, body, onDelete }) => {
               onChange={(e) => setUpdateTitle(e.target.value)}
             />
             <textarea
-              className='w-[80%] h-10 rounded-lg'
+              className='w-[80%] h-32 rounded-lg'
               placeholder='Body'
               value={updateBody}
               onChange={(e) => setUpdateBody(e.target.value)}

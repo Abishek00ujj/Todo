@@ -5,13 +5,11 @@ const List = require('../models/list');
 router.post("/addtask", async (req, res) => {
     try {
         const { title, body, id } = req.body;
-        console.log(title+" "+body+" "+id)
         if (!title || !body || !id) {
             return res.status(400).json({ message: "Title, Body, and User ID are required" });
         }
 
-        const existingUser = await User.findOne({_id:id});
-
+        const existingUser = await User.findById(id);
         if (existingUser) {
             const list = new List({ title, body, user: existingUser._id });
             await list.save();
@@ -29,56 +27,43 @@ router.post("/addtask", async (req, res) => {
     }
 });
 
+
 router.put("/updatetask/:id", async (req, res) => {
     try {
-        const { title, body, email } = req.body;
-
-        if (!title || !body || !email) {
+        const { title, body} = req.body;
+        const taskId = req.params.id;
+        if (!title || !body || !taskId) {
             return res.status(400).json({ message: "Title, Body, and Email are required" });
         }
-
-        const existingUser = await User.findOne({ email });
-
-        if (existingUser) {
-            const list = await List.findByIdAndUpdate(req.params.id, { title, body }, { new: true });
+            const list = await List.findByIdAndUpdate(taskId, { title, body }, { new: true });
 
             if (list) {
                 return res.status(200).json({ message: "Task updated", list });
             } else {
                 return res.status(404).json({ message: "Task not found" });
             }
-        } else {
-            return res.status(404).json({ message: "User not found" });
-        }
-    } catch (error) {
+      }
+      catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Server error" });
     }
 });
 
-
 router.delete("/deletetask/:id", async (req, res) => {
     try {
-        // Find the task (list item) by its ID
-        const list = await List.findById(req.params.id);
-
-        if (!list) {
+        const task = await List.findById(req.params.id);
+        if (!task) {
             return res.status(404).json({ message: "Task not found" });
         }
 
-        // Find the user who owns this task
-        const existingUser = await User.findById(list.user);
-
+        const existingUser = await User.findById(task.user);
         if (!existingUser) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // Remove the task from the user's list
-        existingUser.list.pull(list._id);
+        existingUser.list.pull(task._id);
         await existingUser.save();
-
-        // Delete the task from the database
-        await list.deleteOne();
+        await task.deleteOne();
 
         return res.status(200).json({ message: "Task deleted" });
     } catch (error) {
@@ -92,9 +77,9 @@ router.get("/gettasks/:id", async (req, res) => {
         const list = await List.find({ user: req.params.id }).sort({ createdAt: -1 });
 
         if (list.length > 0) {
-            res.status(200).json({ list });
+            return res.status(200).json({ list });
         } else {
-            res.status(404).json({ message: "No tasks found" });
+            return res.status(404).json({ message: "No tasks found" });
         }
     } catch (error) {
         console.error(error);

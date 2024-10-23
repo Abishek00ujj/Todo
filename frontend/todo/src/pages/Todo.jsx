@@ -11,6 +11,7 @@ const Todo = () => {
   const bodyref = useRef(null);
   const [datu, setdatu] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const notify = (message) => toast(message);
 
   const handleClick = async () => {
@@ -27,11 +28,11 @@ const Todo = () => {
       body,
       id
     };
-
+    
     const url = "http://localhost:1999/api/v2/addtask";
+    setIsSubmitting(true);
     try {
       const res = await axios.post(url, obj);
-      console.log(res);
       if (res.status === 200) {
         notify("Task added successfully!");
         titleref.current.value = "";
@@ -39,8 +40,10 @@ const Todo = () => {
         getTasks();
       }
     } catch (err) {
-      console.error(err);
+      console.error("Error adding task:", err);
       notify("Failed to add task.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -49,14 +52,18 @@ const Todo = () => {
     try {
       const geturl = `http://localhost:1999/api/v2/gettasks/${id}`;
       const res = await axios.get(geturl);
-      setdatu(res.data.list); 
-      console.log(res.data.list); 
+      setdatu(res.data.list);
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching tasks:", err);
+      console.log(err.status)
       notify("Failed to fetch tasks.");
-    } finally {
+    }
+    finally {
       setLoading(false);
     }
+  };
+  const handleDelete = (_id) => {
+    setdatu(datu.filter(task => task._id !== _id));
   };
 
   useEffect(() => {
@@ -66,7 +73,7 @@ const Todo = () => {
   return (
     <>
       <Navbar />
-      <div className='w-screen h-screen z-50 bg-[#f8f8f8]'>
+      <div className='w-screen h-screen bg-[#f8f8f8]'>
         <div className='w-screen bg-slate-400 p-10 flex flex-col justify-center items-center'>
           <div className='flex flex-col justify-center gap-4'>
             <input
@@ -75,16 +82,22 @@ const Todo = () => {
               required
               placeholder='Title'
               className='p-3 w-[90vw] sm:w-[40vw] xl:w-[30vw] border border-gray-500 rounded-md'
+              disabled={isSubmitting} // Disable input while submitting
             />
             <textarea
               ref={bodyref}
               required
               placeholder='Body'
               className='p-3 w-[90vw] sm:w-[40vw] xl:w-[30vw] border border-gray-500 rounded-md'
+              disabled={isSubmitting} // Disable textarea while submitting
             />
             <div className='w-full flex justify-end'>
-              <button className='bg-green-500 rounded-md text-white pl-4 pr-4 pt-2 pb-2' onClick={handleClick}>
-                Add
+              <button
+                className={`bg-green-500 rounded-md text-white pl-4 pr-4 pt-2 pb-2 ${isSubmitting ? 'opacity-50' : ''}`}
+                onClick={handleClick}
+                disabled={isSubmitting} // Disable button while submitting
+              >
+                {isSubmitting ? 'Adding...' : 'Add'}
               </button>
             </div>
           </div>
@@ -95,7 +108,15 @@ const Todo = () => {
             <p>Loading tasks...</p>
           ) : (
             datu.map((item) => (
-              <TodoCard key={item._id} _id={item._id} title={item.title} body={item.body} onDelete={getTasks} />
+              <TodoCard
+                key={item._id}
+                _id={item._id}
+                title={item.title}
+                body={item.body}
+                onDelete={handleDelete}
+                onUpdate={getTasks}
+                getTasks={getTasks}
+              />
             ))
           )}
         </div>
