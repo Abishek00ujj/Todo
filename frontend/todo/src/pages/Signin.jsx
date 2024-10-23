@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Signin = () => {
-    const url=`${API}/api/v1/login`;
+    const url=`${import.meta.env.VITE_API}/api/v1/login`;
     const [Redirecttohome,setRedirecttohome]=useState(false);
     const emailref=useRef(null);
     const passwordref=useRef(null);

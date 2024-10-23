@@ -30,7 +30,7 @@ const Todo = () => {
       id
     };
     
-    const url = `${API}/api/v2/addtask`;
+    const url = `${import.meta.env.VITE_API}/api/v2/addtask`;
     setIsSubmitting(true);
     try {
       const res = await axios.post(url, obj);
@@ -51,7 +51,7 @@ const Todo = () => {
   const getTasks = async () => {
     setLoading(true);
     try {
-      const geturl = `${API}/api/v2/gettasks/${id}`;
+      const geturl = `${import.meta.env.VITE_API}/api/v2/gettasks/${id}`;
       const res = await axios.get(geturl);
       setdatu(res.data.list);
     } catch (err) {

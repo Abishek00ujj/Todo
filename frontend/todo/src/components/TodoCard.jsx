@@ -17,7 +17,7 @@ const TodoCard = ({ _id, title, body, onDelete, onUpdate,getTasks }) => {
   };
 
   const handleDelete = async () => {
-    const deleteUrl = `${API}/api/v2/deletetask/${_id}`;
+    const deleteUrl = `${import.meta.env.VITE_API}/api/v2/deletetask/${_id}`;
     try
     { 
       const res = await axios.delete(deleteUrl);
@@ -31,7 +31,7 @@ const TodoCard = ({ _id, title, body, onDelete, onUpdate,getTasks }) => {
     }
   };
   const handleUpdate = async () => {
-    const updateUrl = `${API}/api/v2/updatetask/${_id}`;
+    const updateUrl = `${import.meta.env.VITE_API}/api/v2/updatetask/${_id}`;
     const updateData = { title: updateTitle, body: updateBody};
 
     try {

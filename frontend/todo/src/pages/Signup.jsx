@@ -6,9 +6,9 @@ import axios from "axios";
 import {useState} from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 const Signup = () => {
-    const url = `${API}/api/v1/register`;
+    // const url = `${process.env.REACT_APP_API}/api/v1/register`;
+    const url = `${import.meta.env.VITE_API}/api/v1/register`;
     const nameref = useRef(null);
     const emailref = useRef(null);
     const password1ref = useRef(null);
