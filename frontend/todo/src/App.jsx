@@ -13,6 +13,7 @@ const App = () => {
   },[])
   return (
     <>
+    <BrowserRouter>
      <Routes>
       <Route path={"/aboutus"} element={<Aboutus/>}/>
       <Route path={"/home"} element={<Home/>}/>
@@ -22,6 +23,7 @@ const App = () => {
       <Route path={"/underconstruction"} element={<Underconstruction/>}/>
       <Route path={"/"} element={<Home/>}/>
      </Routes>
+     </BrowserRouter>
     </>
   )
 }
